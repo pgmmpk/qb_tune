@@ -14,10 +14,10 @@ Then the expected number of ticks is computed (based on a simple model that assu
 from straight move means that trajectory was an arc with constant radius). Measured number of ticks
 is then compared to the expected one in a hope to find close correlation.
 
- ### qb\_drive\_straight
+### qb_drive_straight
 
- This is a simple controller that adjusts motor power according to the wheel encoder readings,
- trying to balance them (i.e. making robot to go straight). This seem to work fairly well for me
- when I use my version of quickbot_bbb software. Beware that I did not try the original quickbot_bbb
- software, and more experiments are needed before one can make a judgement calls on the merits of my
- version of quickbot_bbb as opposed to the original one.
+This is a simple controller that adjusts motor power according to the wheel encoder readings,
+trying to balance them (i.e. making robot to go straight). This seem to work fairly well for me
+when I use my version of quickbot_bbb software. Beware that I did not try the original quickbot_bbb
+software, and more experiments are needed before one can make a judgement calls on the merits of my
+version of quickbot_bbb as opposed to the original one.
