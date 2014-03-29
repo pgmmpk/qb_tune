@@ -14,7 +14,7 @@ Then the expected number of ticks is computed (based on a simple model that assu
 from straight move means that trajectory was an arc with constant radius). Measured number of ticks
 is then compared to the expected one in a hope to find close correlation.
 
- ### qb_drive_straight
+ ### qb\_drive\_straight
 
  This is a simple controller that adjusts motor power according to the wheel encoder readings,
  trying to balance them (i.e. making robot to go straight). This seem to work fairly well for me
