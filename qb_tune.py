@@ -21,19 +21,26 @@ class QbMaster:
         self.base_addr = base_addr
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.__socket.bind(self.base_addr)
-        self.__socket.settimeout(2.0)
+        self.__socket.settimeout(0.5)
 
     def close(self):
         self.__socket.close()
 
     def send_recv(self, message, expect_reply=True):
-        self.__socket.sendto(message, self.robot_addr)
 
-        if not expect_reply:
-            return
+        for _ in range(3):  # re-try count
+            try:
+                self.__socket.sendto(message, self.robot_addr)
 
-        reply, _ = self.__socket.recvfrom(QbMaster.BUFFER_SIZE)
-        return reply
+                if not expect_reply:
+                    return
+
+                reply, _ = self.__socket.recvfrom(QbMaster.BUFFER_SIZE)
+                return reply
+            except socket.timeout:
+                pass
+
+        raise socket.timeout()
 
     def cmd_reset(self):
         self.send_recv("$RESET*\n", False)
@@ -58,6 +65,10 @@ class QbMaster:
         reply = self.send_recv("$ENVEL?*\n")
         return parse_tuple(reply)
 
+    def cmd_get_irval(self):
+        reply = self.send_recv('$IRVAL?*\n')
+        return parse_5tuple(reply)
+
     @classmethod
     @contextlib.contextmanager
     def connect(cls, robot_addr, base_addr):
@@ -77,6 +88,14 @@ def parse_tuple(reply):
         raise Exception('Unexpected reply:' + reply)
 
     return float(m.group(1)), float(m.group(2))
+
+
+def parse_5tuple(reply):
+    m = re.match(r'\[(-?[\d\.]+)\s*,\s*(\-?[\d\.]+)\s*,\s*(\-?[\d\.]+)\s*,\s*(\-?[\d\.]+)\s*,\s*(\-?[\d\.]+)\]\s*', reply)
+    if not m:
+        raise Exception('Unexpected reply:' + reply)
+
+    return float(m.group(1)), float(m.group(2)), float(m.group(3)), float(m.group(4)), float(m.group(5))
 
 
 def animate(from_, to, duration, samples=10):
