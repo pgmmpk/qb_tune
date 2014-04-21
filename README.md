@@ -21,3 +21,12 @@ trying to balance them (i.e. making robot to go straight). This seem to work fai
 when I use my version of quickbot_bbb software. Beware that I did not try the original quickbot_bbb
 software, and more experiments are needed before one can make a judgement calls on the merits of my
 version of quickbot_bbb as opposed to the original one.
+
+### qb_calibrate_ir
+
+A simple code to capture IR readings and plot them. Use this to calibrate IR output.
+
+### qb_simple_behavior
+
+Makes bot to follow a simple behavior: go straight, avoid hitting an obstacle, look for the clear direction,
+and go straight again
